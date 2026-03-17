@@ -1,4 +1,3 @@
-import React from 'react';
 import { Calendar, Clock, Video } from 'lucide-react';
 
 export function SchedulingBlock() {

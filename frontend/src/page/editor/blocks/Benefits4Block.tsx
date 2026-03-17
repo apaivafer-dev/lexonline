@@ -1,4 +1,3 @@
-import React from 'react';
 import { Phone, CreditCard, Shield, Users } from 'lucide-react';
 
 const ITEMS = [

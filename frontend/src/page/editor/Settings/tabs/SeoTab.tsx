@@ -1,4 +1,4 @@
-import React, { useState, KeyboardEvent } from 'react';
+import { useState, KeyboardEvent } from 'react';
 import { Zap, X, Loader2 } from 'lucide-react';
 import type { PageSettings, SeoSettings } from '@/types/page.types';
 import { useSeoValidation } from '@/hooks/useSeoValidation';

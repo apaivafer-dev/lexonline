@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Globe } from 'lucide-react';
 import type { Page } from '@/types/page.types';
 

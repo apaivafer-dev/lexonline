@@ -1,4 +1,3 @@
-import React from 'react';
 import { Monitor, Tablet, Smartphone } from 'lucide-react';
 import { SliderInput } from '../controls/SliderInput';
 import type { SelectedElement } from '@/types/editor.types';

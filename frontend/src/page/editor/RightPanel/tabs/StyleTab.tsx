@@ -14,7 +14,7 @@ interface StyleTabProps {
 }
 
 function useDebounce<T extends (...args: any[]) => void>(fn: T, delay: number): T {
-  const timerRef = React.useRef<ReturnType<typeof setTimeout>>();
+  const timerRef = React.useRef<ReturnType<typeof setTimeout>>(undefined);
   return useCallback((...args: any[]) => {
     if (timerRef.current) clearTimeout(timerRef.current);
     timerRef.current = setTimeout(() => fn(...args), delay);

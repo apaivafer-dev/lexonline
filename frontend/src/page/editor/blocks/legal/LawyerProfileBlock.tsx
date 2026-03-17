@@ -1,4 +1,3 @@
-import React from 'react';
 import { Phone, Award, CheckCircle } from 'lucide-react';
 
 export function LawyerProfileBlock() {

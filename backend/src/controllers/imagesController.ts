@@ -1,17 +1,26 @@
-import fs from 'fs';
-import path from 'path';
 import type { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import imageOptimizer from '@/services/imageOptimizer';
+import { bucket } from '@/services/firebaseAdmin';
 
 const prisma = new PrismaClient();
 
-const UPLOADS_DIR = path.join(process.cwd(), 'uploads');
+const CONTENT_TYPE_MAP: Record<string, string> = {
+  svg: 'image/svg+xml',
+  webp: 'image/webp',
+};
 
-function ensureDir(dirPath: string) {
-  if (!fs.existsSync(dirPath)) {
-    fs.mkdirSync(dirPath, { recursive: true });
-  }
+async function uploadToStorage(
+  filePath: string,
+  buffer: Buffer,
+  contentType: string,
+): Promise<string> {
+  const file = bucket.file(filePath);
+  await file.save(buffer, {
+    metadata: { contentType, cacheControl: 'public, max-age=31536000' },
+    public: true,
+  });
+  return file.publicUrl();
 }
 
 // POST /api/images/:pageId
@@ -31,14 +40,12 @@ export async function uploadImage(req: Request, res: Response): Promise<void> {
     const timestamp = Date.now();
     const isSvg = file.mimetype === 'image/svg+xml';
     const ext = isSvg ? 'svg' : 'webp';
-
-    const dirPath = path.join(UPLOADS_DIR, 'page', userId, pageId);
-    ensureDir(dirPath);
+    const contentType = CONTENT_TYPE_MAP[ext];
 
     const { original, size1200, size800, size400, width, height } =
       await imageOptimizer.convert(file.buffer, file.mimetype);
 
-    const baseName = `${timestamp}`;
+    const basePath = `page/${userId}/${pageId}/${timestamp}`;
     const sizes = [
       { suffix: 'original', buffer: original },
       { suffix: '1200', buffer: size1200 },
@@ -46,11 +53,14 @@ export async function uploadImage(req: Request, res: Response): Promise<void> {
       { suffix: '400', buffer: size400 },
     ];
 
-    for (const { suffix, buffer } of sizes) {
-      fs.writeFileSync(path.join(dirPath, `${baseName}-${suffix}.${ext}`), buffer);
-    }
-
-    const baseUrl = `/uploads/page/${userId}/${pageId}/${baseName}`;
+    // Upload all sizes to Firebase Storage in parallel
+    const urls: Record<string, string> = {};
+    await Promise.all(
+      sizes.map(async ({ suffix, buffer }) => {
+        const storagePath = `${basePath}-${suffix}.${ext}`;
+        urls[suffix] = await uploadToStorage(storagePath, buffer, contentType);
+      }),
+    );
 
     const asset = await prisma.page_assets.create({
       data: {
@@ -59,8 +69,8 @@ export async function uploadImage(req: Request, res: Response): Promise<void> {
         filename: file.originalname,
         file_type: `image/${ext}`,
         file_size: original.length,
-        firebase_url: `${baseUrl}-original.${ext}`,
-        firebase_path: path.join('page', userId, pageId, `${baseName}-original.${ext}`),
+        firebase_url: urls['original'],
+        firebase_path: `${basePath}-original.${ext}`,
         width,
         height,
       },
@@ -68,10 +78,10 @@ export async function uploadImage(req: Request, res: Response): Promise<void> {
 
     res.status(201).json({
       id: asset.id,
-      url: `${baseUrl}-original.${ext}`,
-      url1200: `${baseUrl}-1200.${ext}`,
-      url800: `${baseUrl}-800.${ext}`,
-      urlThumb: `${baseUrl}-400.${ext}`,
+      url: urls['original'],
+      url1200: urls['1200'],
+      url800: urls['800'],
+      urlThumb: urls['400'],
       width,
       height,
       sizeKB: Math.round(original.length / 1024),
@@ -108,7 +118,7 @@ export async function listImages(req: Request, res: Response): Promise<void> {
       prisma.page_assets.count({ where }),
     ]);
 
-    // Reconstruct size URLs from original URL
+    // Reconstruct size URLs from firebase_url
     const images = assets.map((a) => {
       const base = a.firebase_url.replace(/-original\.(webp|svg)$/, '');
       const ext = a.firebase_url.endsWith('.svg') ? 'svg' : 'webp';
@@ -146,15 +156,19 @@ export async function deleteImage(req: Request, res: Response): Promise<void> {
     });
     if (!asset) { res.status(404).json({ error: 'Asset não encontrado' }); return; }
 
-    // Delete all size variants from disk
-    const dirPath = path.join(UPLOADS_DIR, path.dirname(asset.firebase_path));
-    const baseName = path.basename(asset.firebase_path).replace(/-original\.(webp|svg)$/, '');
+    // Delete all size variants from Firebase Storage
+    const basePath = asset.firebase_path.replace(/-original\.(webp|svg)$/, '');
     const ext = asset.firebase_path.endsWith('.svg') ? 'svg' : 'webp';
 
-    for (const suffix of ['original', '1200', '800', '400']) {
-      const filePath = path.join(dirPath, `${baseName}-${suffix}.${ext}`);
-      if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
-    }
+    await Promise.all(
+      ['original', '1200', '800', '400'].map(async (suffix) => {
+        try {
+          await bucket.file(`${basePath}-${suffix}.${ext}`).delete();
+        } catch {
+          // File may not exist, ignore
+        }
+      }),
+    );
 
     await prisma.page_assets.delete({ where: { id: assetId } });
 

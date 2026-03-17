@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ArrowLeft, Plus, Trash2, Loader2, Zap } from 'lucide-react';
 import type { Field, TemplateBinding } from '@/services/collectionsApi';
 import type { CollectionDetail } from '@/services/collectionsApi';

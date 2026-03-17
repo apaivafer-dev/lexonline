@@ -1,17 +1,13 @@
 import { useCallback } from 'react';
 import type { Page, PageSchema } from '@/types/page.types';
+import { blockToSection } from '@/constants/blockToElements.constants';
 
 export function useBlocks(page: Page | null, onPageUpdate: (page: Page) => void) {
   const addBlock = useCallback(
     (blockType: string, afterIndex?: number) => {
       if (!page) return;
 
-      const newBlock: PageSchema = {
-        id: `block-${Date.now()}`,
-        type: 'section',
-        styles: { blockType },
-        columns: [],
-      };
+      const newBlock: PageSchema = blockToSection(blockType);
 
       const newSchema = [...page.schema];
       if (afterIndex !== undefined) {

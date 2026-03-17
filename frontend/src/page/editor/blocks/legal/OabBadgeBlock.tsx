@@ -1,4 +1,3 @@
-import React from 'react';
 import { Award, Shield, Star } from 'lucide-react';
 
 const CREDENTIALS = [

@@ -8,8 +8,7 @@ interface MapElementProps {
   onSelect?: () => void;
 }
 
-export function MapElement({ address = 'Av. Paulista, 1000, São Paulo, SP', height = 300, styles, onSelect }: MapElementProps) {
-  const query = encodeURIComponent(address);
+export function MapElement({ address = 'Av. Paulista, 1000, Sao Paulo, SP', height = 300, styles, onSelect }: MapElementProps) {
   return (
     <div style={{ height, borderRadius: 12, overflow: 'hidden', ...styles }} onClick={onSelect}>
       <div className="w-full h-full bg-slate-200 flex flex-col items-center justify-center">

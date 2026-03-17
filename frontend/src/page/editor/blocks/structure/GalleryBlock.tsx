@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { X, ZoomIn } from 'lucide-react';
 
 const IMAGES = Array.from({ length: 6 }, (_, i) => ({

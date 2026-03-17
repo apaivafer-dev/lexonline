@@ -8,7 +8,7 @@ interface ColumnElementProps {
   onSelect?: () => void;
 }
 
-export function ColumnElement({ children, width = '1fr', gap = 16, styles, onSelect }: ColumnElementProps) {
+export function ColumnElement({ children, styles, onSelect }: ColumnElementProps) {
   return (
     <div
       style={{ flex: 1, minWidth: 0, ...styles }}

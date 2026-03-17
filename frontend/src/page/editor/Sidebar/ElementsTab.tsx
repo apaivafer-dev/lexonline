@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { ElementCard } from './ElementCard';
 import { ELEMENT_CATEGORIES } from '@/constants/elements.constants';

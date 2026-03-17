@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { X, Search, Lock } from 'lucide-react';
 import { BLOCK_REGISTRY, BLOCKS_BY_CATEGORY } from '@/constants/blocks.constants';
 import type { BlockCategory } from '@/types/block.types';
@@ -13,15 +13,6 @@ const CATEGORY_LABELS: Record<BlockCategory, string> = {
 };
 
 const CATEGORIES = Object.keys(CATEGORY_LABELS) as BlockCategory[];
-
-const LAYOUTS = [
-  { name: '1 Coluna', columns: [12] },
-  { name: '2 Col (50/50)', columns: [6, 6] },
-  { name: '3 Colunas', columns: [4, 4, 4] },
-  { name: '4 Colunas', columns: [3, 3, 3, 3] },
-  { name: '2 Col (60/40)', columns: [7, 5] },
-  { name: '2 Col (66/33)', columns: [8, 4] },
-];
 
 interface AddBlockPanelProps {
   onClose: () => void;
@@ -83,31 +74,21 @@ export function AddBlockPanel({ onClose, onAddBlock, onCreateFromLayout }: AddBl
           </div>
         </div>
 
-        {/* Blank block + layouts */}
+        {/* Blank block */}
         {!searchTerm.trim() && (
           <div className="px-6 py-3 flex-shrink-0">
-            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Bloco em branco</p>
-            <div className="grid grid-cols-6 gap-2">
-              {LAYOUTS.map((layout, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => onCreateFromLayout(layout.columns)}
-                  className="p-2 border border-slate-200 rounded-lg hover:border-blue-400 hover:bg-blue-50 transition group"
-                  title={layout.name}
-                >
-                  <div className="flex gap-0.5 h-8 bg-slate-100 rounded p-1">
-                    {layout.columns.map((width, colIdx) => (
-                      <div
-                        key={colIdx}
-                        style={{ flex: width }}
-                        className="bg-slate-300 group-hover:bg-blue-400 rounded-sm transition-colors"
-                      />
-                    ))}
-                  </div>
-                  <p className="text-[10px] text-slate-500 mt-1 text-center truncate">{layout.name}</p>
-                </button>
-              ))}
-            </div>
+            <button
+              onClick={() => onCreateFromLayout([12])}
+              className="w-full flex items-center gap-3 p-3 border-2 border-dashed border-slate-300 rounded-xl hover:border-blue-400 hover:bg-blue-50 transition group"
+            >
+              <div className="w-10 h-10 bg-slate-100 group-hover:bg-blue-100 rounded-lg flex items-center justify-center">
+                <div className="w-6 h-5 border-2 border-slate-300 group-hover:border-blue-400 rounded-sm" />
+              </div>
+              <div className="text-left">
+                <p className="text-sm font-semibold text-slate-700 group-hover:text-blue-700">Bloco em Branco</p>
+                <p className="text-xs text-slate-400">Bloco vazio para arrastar elementos</p>
+              </div>
+            </button>
           </div>
         )}
 

@@ -1,4 +1,3 @@
-import React from 'react';
 
 const STEPS = [
   { phase: 'Protocolo', description: 'Registro e distribuição da ação', duration: '1 dia', color: '#2563eb' },

@@ -26,7 +26,8 @@ export function PreviewModal({ isOpen, onClose, pageId }: PreviewModalProps) {
   if (!isOpen) return null;
 
   const config = DEVICE_CONFIG[device];
-  const previewUrl = `/preview/${pageId}`;
+  const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+  const previewUrl = `${base}/preview/${pageId}`;
 
   return (
     <div

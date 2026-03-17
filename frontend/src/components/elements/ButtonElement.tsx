@@ -15,7 +15,7 @@ interface ButtonElementProps {
   onSelect?: () => void;
 }
 
-export function ButtonElement({ text = 'Clique Aqui', variant = 'filled', size = 'md', color = '#2563eb', href = '#', showIcon = false, styles, onSelect }: ButtonElementProps) {
+export function ButtonElement({ text = 'Clique Aqui', variant = 'filled', size = 'md', color = '#2563eb', showIcon = false, styles, onSelect }: ButtonElementProps) {
   const sizes = { sm: 'px-4 py-2 text-sm', md: 'px-6 py-3 text-base', lg: 'px-8 py-4 text-lg' };
   const variants = {
     filled: { backgroundColor: color, color: '#fff', border: 'none' },

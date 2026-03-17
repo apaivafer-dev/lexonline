@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FlaskConical, Loader2 } from 'lucide-react';
 import { useAbTest } from '@/hooks/useAbTest';
 import type { AbTest } from '@/hooks/useAbTest';

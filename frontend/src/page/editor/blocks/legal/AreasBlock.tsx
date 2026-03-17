@@ -1,4 +1,3 @@
-import React from 'react';
 import { Shield, Home, Briefcase, Calendar, Heart, Calculator } from 'lucide-react';
 
 const ICONS = { shield: Shield, home: Home, briefcase: Briefcase, calendar: Calendar, heart: Heart, calculator: Calculator };

@@ -19,7 +19,7 @@ declare global {
 
 export function authenticateToken(req: Request, res: Response, next: NextFunction): void {
   const token =
-    req.cookies?.lexonline_session ||
+    req.cookies?.__session ||
     req.headers.authorization?.replace('Bearer ', '');
 
   if (!token) {

@@ -1,4 +1,3 @@
-import React from 'react';
 
 const EVENTS = [
   { year: 2008, title: 'Fundação', description: 'Início das atividades com foco em direito do consumidor' },

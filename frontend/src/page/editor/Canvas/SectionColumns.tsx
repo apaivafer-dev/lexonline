@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Plus, GripVertical, Trash2 } from 'lucide-react';
+import { Plus, Trash2 } from 'lucide-react';
+import { ElementVisualRenderer } from './ElementVisualRenderer';
 import type { PageColumn, PageElement, PageSchema, Page } from '@/types/page.types';
 
 interface SectionColumnsProps {
@@ -21,6 +22,7 @@ function ElementRenderer({ element, onClick, onRemove }: { element: PageElement;
 
   return (
     <div
+      data-element-hover
       className={`relative group rounded-md transition cursor-pointer ${hovered ? 'ring-2 ring-blue-400' : ''}`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -37,10 +39,7 @@ function ElementRenderer({ element, onClick, onRemove }: { element: PageElement;
           </button>
         </div>
       )}
-      <div className="p-2 bg-white border border-slate-200 rounded-md text-xs text-slate-600 min-h-[32px] flex items-center gap-1.5">
-        <GripVertical size={12} className="text-slate-300 flex-shrink-0" />
-        <span className="truncate">{element.type}{element.content ? `: ${element.content.substring(0, 30)}` : ''}</span>
-      </div>
+      <ElementVisualRenderer element={element} />
     </div>
   );
 }
@@ -54,7 +53,7 @@ function ColumnDropZone({ column, onDropElement, onElementClick, onRemoveElement
         dragOver
           ? 'border-blue-400 bg-blue-50'
           : column.elements.length > 0
-            ? 'border-transparent bg-slate-50/50'
+            ? 'border-transparent bg-transparent'
             : 'border-slate-200 bg-slate-50/80'
       }`}
       style={{ flex: column.width }}
@@ -143,8 +142,18 @@ export function SectionColumns({ section, page, onPageUpdate, onElementSelect }:
     );
   }
 
+  // Apply section-level styles (backgroundColor, padding, textAlign, color) from the schema
+  const sectionStyles: React.CSSProperties = {};
+  if (section.styles) {
+    const ss = section.styles;
+    if (ss.backgroundColor) sectionStyles.backgroundColor = ss.backgroundColor;
+    if (ss.padding) sectionStyles.padding = ss.padding;
+    if (ss.textAlign) sectionStyles.textAlign = ss.textAlign as React.CSSProperties['textAlign'];
+    if (ss.color) sectionStyles.color = ss.color;
+  }
+
   return (
-    <div className="flex gap-2 p-3 min-h-[100px]">
+    <div className="flex gap-2 min-h-[60px]" style={{ padding: '12px', ...sectionStyles }}>
       {section.columns.map((col) => (
         <ColumnDropZone
           key={col.id}

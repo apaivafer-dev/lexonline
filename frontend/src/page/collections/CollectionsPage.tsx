@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { type FormEvent, useEffect, useState } from 'react';
 import { Plus, Pencil, Trash2, Zap, Loader2, Database } from 'lucide-react';
 import { useCollections } from '@/hooks/useCollections';
 import { CollectionEditor } from './CollectionEditor';
-import type { Field } from '@/services/collectionsApi';
 
 // ── Modal: Nova Collection ─────────────────────────────────────────────────────
 
@@ -32,7 +31,7 @@ function CreateCollectionModal({ onSave, onClose }: CreateCollectionModalProps) 
     }
   }
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     if (!name.trim() || !slug.trim()) {
       setError('Nome e slug são obrigatórios');
@@ -161,11 +160,11 @@ export function CollectionsPage() {
         items={items}
         onBack={handleBackToList}
         onUpdate={(data) => updateCollection(currentCollection.id, data)}
-        onAddItem={(data) => addItem(currentCollection.id, data)}
+        onAddItem={async (data) => { await addItem(currentCollection.id, data); }}
         onUpdateItem={(itemId, data) => updateItem(currentCollection.id, itemId, data)}
         onDeleteItem={(itemId) => deleteItem(currentCollection.id, itemId)}
         onReorderItems={(order) => reorderItems(currentCollection.id, order)}
-        onPublishAll={(pageId, bindingId) => publishAllPages(currentCollection.id, pageId, bindingId)}
+        onPublishAll={async (pageId, bindingId) => { await publishAllPages(currentCollection.id, pageId, bindingId); }}
       />
     );
   }

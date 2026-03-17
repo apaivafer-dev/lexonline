@@ -1,4 +1,3 @@
-import React from 'react';
 import { ChevronLeft, Grid3x3, RotateCcw, RotateCw, Eye, Settings, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import type { Page } from '@/types/page.types';

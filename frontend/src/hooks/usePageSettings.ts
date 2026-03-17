@@ -6,7 +6,7 @@ export function usePageSettings(pageId: string, initialSettings: PageSettings = 
   const [settings, setSettings] = useState<PageSettings>(initialSettings);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
-  const saveTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const saveTimeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const updateSettings = useCallback((partial: Partial<PageSettings>) => {
     const next = { ...settings, ...partial };

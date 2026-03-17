@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Plus, Search, Layout } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { usePages } from '@/hooks/usePages';

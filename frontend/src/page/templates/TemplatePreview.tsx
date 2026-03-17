@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { ArrowLeft, X } from 'lucide-react';
 import type { PageTemplate } from '@/types/page.types';
 

@@ -1,14 +1,30 @@
-import React from 'react';
+import { useState } from 'react';
+import { Images } from 'lucide-react';
+import { ImageGallery } from '@/components/ImageGallery/ImageGallery';
+import type { ImageAsset } from '@/services/imageApi';
 import type { SelectedElement } from '@/types/editor.types';
 
 interface ContentTabProps {
   element: SelectedElement;
   onUpdate: (data: Partial<SelectedElement>) => void;
+  pageId?: string;
 }
 
-export function ContentTab({ element, onUpdate }: ContentTabProps) {
+export function ContentTab({ element, onUpdate, pageId }: ContentTabProps) {
+  const [galleryOpen, setGalleryOpen] = useState(false);
   const updateContent = (content: string) => onUpdate({ content });
   const updateStyle = (key: string, value: string) => onUpdate({ styles: { ...element.styles, [key]: value } });
+
+  const handleImageSelect = (image: ImageAsset) => {
+    onUpdate({
+      styles: {
+        ...element.styles,
+        src: image.url,
+        srcset: `${image.url1200} 1200w, ${image.url800} 800w, ${image.urlThumb} 400w`,
+      },
+      content: element.content || image.filename,
+    });
+  };
 
   const renderContent = () => {
     switch (element.type) {
@@ -16,7 +32,7 @@ export function ContentTab({ element, onUpdate }: ContentTabProps) {
         return (
           <div className="space-y-3">
             <div>
-              <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Nível</label>
+              <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Nivel</label>
               <select
                 defaultValue="1"
                 onChange={(e) => updateStyle('tag', e.target.value)}
@@ -42,7 +58,7 @@ export function ContentTab({ element, onUpdate }: ContentTabProps) {
       case 'text':
         return (
           <div>
-            <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Conteúdo</label>
+            <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Conteudo</label>
             <textarea
               defaultValue={element.content ?? ''}
               rows={5}
@@ -56,7 +72,7 @@ export function ContentTab({ element, onUpdate }: ContentTabProps) {
         return (
           <div className="space-y-3">
             <div>
-              <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Texto do Botão</label>
+              <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Texto do Botao</label>
               <input
                 type="text"
                 defaultValue={element.content ?? 'Clique Aqui'}
@@ -75,7 +91,7 @@ export function ContentTab({ element, onUpdate }: ContentTabProps) {
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Variação</label>
+              <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Variacao</label>
               <select
                 onChange={(e) => updateStyle('variant', e.target.value)}
                 className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -91,12 +107,36 @@ export function ContentTab({ element, onUpdate }: ContentTabProps) {
       case 'image':
         return (
           <div className="space-y-3">
+            {/* Image preview */}
+            {element.styles.src && (
+              <div className="relative rounded-lg overflow-hidden border border-slate-200">
+                <img
+                  src={element.styles.src}
+                  alt={element.content || 'Preview'}
+                  className="w-full h-40 object-cover"
+                />
+              </div>
+            )}
+
+            {/* Gallery button */}
+            {pageId && (
+              <button
+                type="button"
+                onClick={() => setGalleryOpen(true)}
+                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition"
+              >
+                <Images size={16} />
+                {element.styles.src ? 'Trocar Imagem' : 'Escolher da Galeria'}
+              </button>
+            )}
+
+            {/* URL manual input */}
             <div>
               <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">URL da Imagem</label>
               <input
                 type="text"
                 placeholder="https://..."
-                defaultValue={element.styles.src ?? ''}
+                value={element.styles.src ?? ''}
                 onChange={(e) => updateStyle('src', e.target.value)}
                 className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
@@ -105,8 +145,8 @@ export function ContentTab({ element, onUpdate }: ContentTabProps) {
               <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Texto Alternativo</label>
               <input
                 type="text"
-                placeholder="Descrição da imagem"
-                defaultValue={element.content ?? ''}
+                placeholder="Descricao da imagem"
+                value={element.content ?? ''}
                 onChange={(e) => updateContent(e.target.value)}
                 className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
@@ -118,7 +158,7 @@ export function ContentTab({ element, onUpdate }: ContentTabProps) {
         return (
           <div className="space-y-3">
             <div>
-              <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">URL do Vídeo</label>
+              <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">URL do Video</label>
               <input
                 type="text"
                 placeholder="YouTube, Vimeo..."
@@ -160,7 +200,7 @@ export function ContentTab({ element, onUpdate }: ContentTabProps) {
         return (
           <div className="space-y-3">
             <div>
-              <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Conteúdo</label>
+              <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Conteudo</label>
               <textarea
                 defaultValue={element.content ?? ''}
                 rows={4}
@@ -180,6 +220,16 @@ export function ContentTab({ element, onUpdate }: ContentTabProps) {
         <p className="text-sm font-semibold text-blue-600">{element.type}</p>
       </div>
       {renderContent()}
+
+      {/* Image Gallery Modal */}
+      {pageId && (
+        <ImageGallery
+          pageId={pageId}
+          isOpen={galleryOpen}
+          onClose={() => setGalleryOpen(false)}
+          onSelect={handleImageSelect}
+        />
+      )}
     </div>
   );
 }

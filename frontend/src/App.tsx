@@ -34,7 +34,7 @@ function PageSettingsRoute() {
 
 export function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '') || '/'}>
       <Routes>
         {/* Redirect root to /page */}
         <Route path="/" element={<Navigate to="/page" replace />} />

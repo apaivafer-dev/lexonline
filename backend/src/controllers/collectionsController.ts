@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 import massPublisher from '@/services/massPublisher';
 
 const prisma = new PrismaClient();
@@ -71,7 +71,7 @@ export async function createCollection(req: Request, res: Response): Promise<voi
         name,
         slug,
         description: description ?? null,
-        fields: fields ?? [],
+        fields: (fields ?? []) as Prisma.InputJsonValue,
       },
     });
 
@@ -132,7 +132,7 @@ export async function updateCollection(req: Request, res: Response): Promise<voi
       data: {
         ...(name !== undefined && { name }),
         ...(description !== undefined && { description }),
-        ...(fields !== undefined && { fields }),
+        ...(fields !== undefined && { fields: fields as Prisma.InputJsonValue }),
       },
     });
 
@@ -221,7 +221,7 @@ export async function createItem(req: Request, res: Response): Promise<void> {
     const nextOrder = (maxOrder._max.order_index ?? -1) + 1;
 
     const item = await prisma.collection_items.create({
-      data: { collection_id: collectionId, data, order_index: nextOrder },
+      data: { collection_id: collectionId, data: data as Prisma.InputJsonValue, order_index: nextOrder },
     });
 
     res.status(201).json(item);
@@ -255,7 +255,7 @@ export async function updateItem(req: Request, res: Response): Promise<void> {
     const updated = await prisma.collection_items.update({
       where: { id: itemId },
       data: {
-        ...(data !== undefined && { data }),
+        ...(data !== undefined && { data: data as Prisma.InputJsonValue }),
         ...(published !== undefined && { published }),
       },
     });

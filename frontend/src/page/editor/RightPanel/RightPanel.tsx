@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { X } from 'lucide-react';
 import { ContentTab } from './tabs/ContentTab';
 import { StyleTab } from './tabs/StyleTab';
@@ -10,6 +10,7 @@ interface RightPanelProps {
   onClose: () => void;
   selectedElement: SelectedElement | null;
   onUpdateElement?: (data: Partial<SelectedElement>) => void;
+  pageId?: string;
 }
 
 type TabId = 'content' | 'style' | 'advanced';
@@ -20,7 +21,7 @@ const TABS: Array<{ id: TabId; label: string }> = [
   { id: 'advanced', label: 'Avançado' },
 ];
 
-export function RightPanel({ isOpen, onClose, selectedElement, onUpdateElement }: RightPanelProps) {
+export function RightPanel({ isOpen, onClose, selectedElement, onUpdateElement, pageId }: RightPanelProps) {
   const [activeTab, setActiveTab] = useState<TabId>('content');
 
   const handleUpdate = (data: Partial<SelectedElement>) => {
@@ -65,7 +66,7 @@ export function RightPanel({ isOpen, onClose, selectedElement, onUpdateElement }
             {/* Tab Content */}
             <div className="flex-1 overflow-y-auto">
               {activeTab === 'content' && (
-                <ContentTab element={selectedElement} onUpdate={handleUpdate} />
+                <ContentTab element={selectedElement} onUpdate={handleUpdate} pageId={pageId} />
               )}
               {activeTab === 'style' && (
                 <StyleTab element={selectedElement} onUpdate={handleUpdate} />

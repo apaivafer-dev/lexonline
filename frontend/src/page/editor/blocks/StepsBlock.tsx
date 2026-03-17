@@ -1,4 +1,3 @@
-import React from 'react';
 
 const STEPS = [
   { number: 1, title: 'Consulta Inicial', description: 'Entendemos seu caso em detalhe, sem compromisso.' },

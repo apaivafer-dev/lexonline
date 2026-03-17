@@ -1,4 +1,3 @@
-import React from 'react';
 
 interface DeviceData { desktop: number; mobile: number; tablet: number; }
 

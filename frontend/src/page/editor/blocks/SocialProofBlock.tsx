@@ -1,4 +1,3 @@
-import React from 'react';
 import { CheckCircle, Star, Award, Trophy } from 'lucide-react';
 
 const STATS = [

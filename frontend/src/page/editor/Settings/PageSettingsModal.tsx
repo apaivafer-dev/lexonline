@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { X, Loader2 } from 'lucide-react';
 import type { Page } from '@/types/page.types';
 import { usePageSettings } from '@/hooks/usePageSettings';

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { MoreVertical, Copy, Trash2, Settings, Eye } from 'lucide-react';
 import type { Page } from '@/types/page.types';
 import { PageStatusBadge } from './PageStatusBadge';

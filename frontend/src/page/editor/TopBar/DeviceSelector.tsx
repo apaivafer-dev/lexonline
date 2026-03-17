@@ -1,4 +1,3 @@
-import React from 'react';
 import { Monitor, Tablet, Smartphone } from 'lucide-react';
 import type { DeviceType } from '@/types/editor.types';
 

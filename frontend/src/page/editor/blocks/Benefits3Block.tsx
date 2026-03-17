@@ -1,4 +1,3 @@
-import React from 'react';
 import { Briefcase, Eye, CheckCircle } from 'lucide-react';
 
 const ITEMS = [

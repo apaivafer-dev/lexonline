@@ -8,7 +8,7 @@ interface VideoElementProps {
   onSelect?: () => void;
 }
 
-export function VideoElement({ url, thumbnail, styles, onSelect }: VideoElementProps) {
+export function VideoElement({ url, styles, onSelect }: VideoElementProps) {
   if (url?.includes('youtube') || url?.includes('youtu.be') || url?.includes('vimeo')) {
     const embedUrl = url.replace('watch?v=', 'embed/').replace('youtu.be/', 'youtube.com/embed/');
     return (

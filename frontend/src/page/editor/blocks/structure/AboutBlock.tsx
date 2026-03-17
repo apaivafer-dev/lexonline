@@ -1,4 +1,3 @@
-import React from 'react';
 import { Users, Award, MapPin } from 'lucide-react';
 
 export function AboutBlock() {

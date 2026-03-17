@@ -1,4 +1,3 @@
-import React from 'react';
 import { Check, AlertCircle, Loader2 } from 'lucide-react';
 
 interface SaveIndicatorProps {

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Trophy, TrendingUp, Loader2, FlaskConical, AlertCircle } from 'lucide-react';
 import { useAbTest } from '@/hooks/useAbTest';
 import type { DayPoint } from '@/hooks/useAbTest';

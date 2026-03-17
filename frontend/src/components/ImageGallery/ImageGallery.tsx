@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { X, Images } from 'lucide-react';
 import imageApi, { type ImageAsset, type UploadResponse } from '@/services/imageApi';
 import { ImageCard } from './ImageCard';

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ChevronDown, Scale } from 'lucide-react';
 
 const FAQS = [

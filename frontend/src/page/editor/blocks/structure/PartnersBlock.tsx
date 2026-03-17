@@ -1,4 +1,3 @@
-import React from 'react';
 
 const PARTNERS = [
   { name: 'OAB — Ordem dos Advogados' },

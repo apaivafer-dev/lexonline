@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const ANIMATIONS = [
   { id: 'none', label: 'Nenhuma' },
@@ -28,7 +28,6 @@ interface AnimSelectorProps {
 
 export function AnimSelector({ value = 'none', onChange, label }: AnimSelectorProps) {
   const [preview, setPreview] = useState<string | null>(null);
-  const selected = ANIMATIONS.find((a) => a.id === value) ?? ANIMATIONS[0];
 
   return (
     <div>

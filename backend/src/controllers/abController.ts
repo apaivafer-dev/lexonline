@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 import abAnalytics from '@/services/abAnalytics';
 
 const prisma = new PrismaClient();
@@ -42,8 +42,8 @@ export async function createTest(req: Request, res: Response): Promise<void> {
         element_id: elementId,
         name: name ?? `Teste ${elementId}`,
         status: 'active',
-        variant_a_schema: variantA,
-        variant_b_schema: variantB,
+        variant_a_schema: variantA as Prisma.InputJsonValue,
+        variant_b_schema: variantB as Prisma.InputJsonValue,
         split_a: a,
         split_b: b,
         traffic_split: b,
@@ -165,7 +165,7 @@ export async function declareWinner(req: Request, res: Response): Promise<void> 
         });
         await prisma.pages.update({
           where: { id: test.page_id },
-          data: { schema: updatedSchema },
+          data: { schema: updatedSchema as Prisma.InputJsonValue },
         });
       }
     }

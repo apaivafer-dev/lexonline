@@ -1,4 +1,3 @@
-import React from 'react';
 import { ArrowUp, ArrowDown, Copy, Trash2, Settings } from 'lucide-react';
 
 interface BlockFloatingControlsProps {

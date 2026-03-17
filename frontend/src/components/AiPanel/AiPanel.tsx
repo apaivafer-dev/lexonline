@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { X, Send, ChevronDown } from 'lucide-react';
 import { useAi } from '@/hooks/useAi';
 import { AiChat } from './AiChat';
@@ -245,12 +245,12 @@ export function AiPanel({
                   ? 'bg-blue-600 text-white border-blue-600'
                   : 'border-slate-200 text-slate-600 hover:bg-slate-50'}`}
             >
-              <span>{action.icon}</span>
+              <span>{action.icon as string}</span>
               {action.label}
               {contextFormType === action.type && <ChevronDown size={10} />}
             </button>
           ))}
-          {pageData && (
+          {pageData ? (
             <button
               onClick={() => void handleAnalyze()}
               disabled={isLoading}
@@ -258,7 +258,7 @@ export function AiPanel({
             >
               🔍 Analisar página
             </button>
-          )}
+          ) : null}
         </div>
 
         {/* Context form overlay */}

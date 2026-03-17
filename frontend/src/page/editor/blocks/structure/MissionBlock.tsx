@@ -1,4 +1,3 @@
-import React from 'react';
 import { Target, Eye, Star } from 'lucide-react';
 
 export function MissionBlock() {

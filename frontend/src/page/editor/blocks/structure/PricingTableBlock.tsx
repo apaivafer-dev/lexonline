@@ -1,4 +1,3 @@
-import React from 'react';
 import { Check, X as XIcon } from 'lucide-react';
 
 const PLANS = [

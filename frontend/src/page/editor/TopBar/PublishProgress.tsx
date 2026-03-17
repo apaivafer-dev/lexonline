@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { X, Check, Loader2, AlertCircle, Globe, Copy, ExternalLink } from 'lucide-react';
+import { useEffect } from 'react';
+import { X, Check, Loader2, AlertCircle, Copy, ExternalLink } from 'lucide-react';
 import { usePublish, type PublishProgress as ProgressItem } from '@/hooks/usePublish';
 
 interface Props {

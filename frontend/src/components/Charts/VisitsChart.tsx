@@ -1,4 +1,3 @@
-import React from 'react';
 
 interface VisitPoint { date: string; visits: number; }
 

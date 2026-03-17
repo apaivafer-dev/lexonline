@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Info } from 'lucide-react';
 import type { PageSettings, AnalyticsSettings } from '@/types/page.types';
 

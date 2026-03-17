@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ElementsSearch } from './ElementsSearch';
 import { ElementsTab } from './ElementsTab';
 

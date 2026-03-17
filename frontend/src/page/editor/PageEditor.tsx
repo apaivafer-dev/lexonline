@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useEditorLayout } from '@/hooks/useEditorLayout';
 import { useEditorState } from '@/hooks/useEditorState';
@@ -62,6 +62,42 @@ export function PageEditor() {
     layout.setSelectedElement(element);
     layout.setRightPanelOpen(true);
   }, [layout]);
+
+  const handleElementUpdate = useCallback((data: Partial<SelectedElement>) => {
+    if (!page || !layout.selectedElement) return;
+    const { sectionId, columnId, id: elId } = layout.selectedElement;
+
+    const newSchema = page.schema.map((sec) => {
+      if (sec.id !== sectionId) return sec;
+      return {
+        ...sec,
+        columns: sec.columns.map((col) => {
+          if (col.id !== columnId) return col;
+          return {
+            ...col,
+            elements: col.elements.map((el) => {
+              if (el.id !== elId) return el;
+              return {
+                ...el,
+                ...(data.content !== undefined ? { content: data.content } : {}),
+                ...(data.styles ? { styles: { ...el.styles, ...data.styles } } : {}),
+              };
+            }),
+          };
+        }),
+      };
+    });
+
+    const updated = { ...page, schema: newSchema } as Page;
+    handlePageUpdate(updated);
+
+    // Keep RightPanel in sync
+    layout.setSelectedElement({
+      ...layout.selectedElement,
+      ...(data.content !== undefined ? { content: data.content } : {}),
+      ...(data.styles ? { styles: { ...layout.selectedElement.styles, ...data.styles } } : {}),
+    });
+  }, [page, layout, handlePageUpdate]);
 
   useKeyboardShortcuts({
     onUndo: history.undo,
@@ -136,6 +172,8 @@ export function PageEditor() {
           isOpen={layout.rightPanelOpen && !aiPanelOpen}
           onClose={() => layout.setRightPanelOpen(false)}
           selectedElement={layout.selectedElement}
+          onUpdateElement={handleElementUpdate}
+          pageId={id!}
         />
 
         <AiPanel

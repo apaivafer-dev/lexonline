@@ -1,4 +1,3 @@
-import React from 'react';
 import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin } from 'lucide-react';
 
 export function FooterBlock() {

@@ -1,4 +1,3 @@
-import React from 'react';
 import type { PageStatus } from '@/types/page.types';
 import { cn } from '@/utils/cn';
 
