@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /c/Projetos/lexonline -maxdepth 2 -type f \\\\\\(-name *.env* -o -name *DEPLOY* -o -name *FIREBASE* \\\\\\))",
+      "Bash(ls -la /c/Projetos/lexonline/*.md)",
+      "Bash(grep -r firebase /c/Projetos/lexonline --include=*.json --include=*.ts --include=*.js)",
+      "Bash(grep -n \"firebase\\\\|FIREBASE\" /c/Projetos/lexonline/backend/src/services/*.ts)",
+      "Bash(npm i:*)",
+      "Bash(bash .husky/pre-commit)",
+      "Bash(firebase deploy:*)",
+      "Bash(gcloud run:*)",
+      "Bash(where gcloud:*)"
+    ]
+  }
+}

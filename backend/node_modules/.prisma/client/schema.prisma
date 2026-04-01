@@ -343,7 +343,7 @@ model page_templates {
   slug          String   @unique @db.VarChar(255)
   description   String?
   category      String   @db.VarChar(50)
-  thumbnail_url String?  @db.VarChar(500)
+  thumbnail_url String?  @db.Text
   schema        Json
   is_premium    Boolean  @default(false)
   preview_url   String?  @db.VarChar(500)

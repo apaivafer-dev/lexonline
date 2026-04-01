@@ -1,0 +1,40 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(grep -r domain /c/Projetos/lexonline --include=*.ts --include=*.tsx --include=*.json -l)",
+      "Bash(find /c/Projetos/lexonline -name *domain* -o -name *Domain*)",
+      "Bash(xargs ls:*)",
+      "Bash(xargs cat:*)",
+      "Bash(find /c/Projetos/lexonline/PortalLexonline -name *domain* -o -name *Domain*)",
+      "Bash(grep -r \"domain\\\\|Domain\" /c/Projetos/lexonline/frontend/src --include=*.ts --include=*.tsx)",
+      "Bash(git -C /c/Projetos/lexonline config --file .gitmodules --name-only --get-regexp path)",
+      "Bash(grep -r \"gray-\\\\|indigo-\\\\|red-\\\\|violet-\" /c/Projetos/lexonline/PortalLexonline/components/*.tsx)",
+      "Bash(grep -r \"gray-\\\\|indigo-\\\\|red-\\\\|violet-\" /c/Projetos/lexonline/frontend/src/page/editor/*.tsx)",
+      "Bash(grep -n \"className=.*''''\\\\+\\\\|className=.*\\\\`\" /c/Projetos/lexonline/frontend/src/page/editor/TopBar/TopBar.tsx)",
+      "Bash(npm run:*)",
+      "Bash(xargs grep:*)",
+      "Bash(find /c/Projetos/lexonline/PortalLexonline -name *route* -o -name *router*)",
+      "Bash(grep -E \"\\\\.\\(tsx|ts\\)$\")",
+      "Bash(find /c/Projetos/lexonline/PortalLexonline -name AppLayout* -o -name appLayout*)",
+      "Bash(find c:/Projetos/lexonline/frontend -name \"*.tsx\" -type f -exec grep -l \"Route\\\\|Router\" {})",
+      "Bash(netstat -ano)",
+      "Bash(taskkill //F //PID 9596 //PID 5320 //PID 26000 //PID 18416 //PID 24628)",
+      "Bash(npx vite:*)",
+      "Bash(npx firebase:*)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://api-y67ruutidq-uc.a.run.app/api/page\" -H \"Cookie: \")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://app.lexonline.com.br/api/health\")",
+      "Bash(curl -s \"https://app.lexonline.com.br/api/health\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://app.lexonline.com.br/api/page\")",
+      "Bash(curl -s -w \"\\\\nHTTP_CODE: %{http_code}\" \"https://app.lexonline.com.br/api/page\" -H \"Cookie: __session=fake\")",
+      "Bash(curl -s -w \"\\\\nHTTP_CODE: %{http_code}\" \"https://app.lexonline.com.br/api/page\")",
+      "Bash(ls c:/Projetos/lexonline/PortalLexonline/.env*)",
+      "Bash(rm -rf c:/Projetos/lexonline/PortalLexonline/dist/editor)",
+      "Bash(cp -r c:/Projetos/lexonline/frontend/dist c:/Projetos/lexonline/PortalLexonline/dist/editor)",
+      "Bash(grep -E \"\\\\.tsx$\")",
+      "Bash(find c:Projetoslexonlinebackend -name *.entity.ts -o -name *.model.ts)",
+      "Bash(grep -r \"page_templates\\\\|page_versions\\\\|page_leads\\\\|page_assets\\\\|ab_test\" c:Projetoslexonlinebackendsrcservices --include=*.ts)",
+      "Bash(node -e \":*)"
+    ]
+  }
+}
